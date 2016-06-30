@@ -1,43 +1,54 @@
 # Urbs.jl
 
 ## Julia as a Python Programmer
-- idea: mixture of matlab & python with speed similar to compiled languages
-- typ-freie sprache
-- arrays start at 1
-- built-in package manager (similar to pip)
-- Just-in-time compiler vs skript sprache
-- objects vs types and functions (c-style)
+- Grundidee: Mischung High-level Programmiersprache (wie Matlab/Python) und der Geschwindigkeit von kompilierten Sprachen
+- dynamic type system: Variablen können einen beliebigen Typ haben, können aber auch eingeschränkt werden
+- arrays starten bei 1
+- built-in package manager (ähnlich zu pip)
+- Just-in-time compiler vs skript sprachen
+- Object Oriented Programming vs Types und Functions
 
-## Using JuMP
-### basic example
+## Lineare Optimierung mit JuMP
+### Einfaches Beispiel
+```julia
+using JuMP
+
+m = Model()
+@variable(m, x >= 0)
+@variable(m, y >= 0)
+
+@objective(m, Max, x+y)
+
+@constraint(m, x <= 3)
+@constraint(m, y <= 2)
+solve(m)
+getobjectivevalue(m) == 5
 ```
-stuff
-```
-### foundations for linear programming
-- variables + objective
-- constraints
-- how to choose a solver
+
+### Grundlagen der Linearen Optimierung
+- Variablen und Objective
+- Bedingungen und Summen
+- Solver-Einstellungen
 - more matrix oriented in comparison to Pyomo
-	* no sets -> organize as arrays
-	* using indices instead of elements of a set
+	* keine Mengen -> Daten müssen selbst durch Arrays organisiert werden
+	* Verbindung zwischen Modell und Daten durch Arrayindizes
 
-## Model
-- consists of
+## Reduziertes Urbs Model
+- Modellbausteine mit Parametern und Variablen
 	* Sites
 	* Processes
 	* ...
-- parameters
-- variables
 
-### hard parts
+### Implementierungsschritte
 - excel reading
-- pure programming interface
 - array generation
+- pure programming interface
 - transmission (doubled)
 
-## Comparison to URBS
-- just the basic model
-- no plotting/processing of the results
-- DIAGRAMS
-	* time (overall, linear speedup, solver vs model
-	* space
+## Vergleich mit URBS
+- Reduziertes Model
+- Speicher als Erhöhung der Solvetime
+- kein plotting/Verarbeiten der Ergebnisse
+- DIAGRAMME
+	* Zeit (overall, linear speedup, solver vs model)
+	* Speicherplatz
