@@ -2,9 +2,9 @@
 
 ## Julia as a Python Programmer
 - Grundidee: Mischung High-level Programmiersprache (wie Matlab/Python) und der Geschwindigkeit von kompilierten Sprachen
-- dynamic type system: Variablen können einen beliebigen Typ haben, können aber auch eingeschränkt werden
-- arrays starten bei 1
-- built-in package manager (ähnlich zu pip)
+- Dynamic type system: Variablen können einen beliebigen Typ haben, können aber auch eingeschränkt werden
+- Arrays starten bei 1
+- Built-in package manager (ähnlich zu pip)
 - Just-in-time compiler vs skript sprachen
 - Object Oriented Programming vs Types und Functions
 
@@ -21,6 +21,7 @@ m = Model()
 
 @constraint(m, x <= 3)
 @constraint(m, y <= 2)
+
 solve(m)
 getobjectivevalue(m) == 5
 ```
