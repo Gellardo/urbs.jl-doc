@@ -43,13 +43,18 @@ getobjectivevalue(m) == 5
 ### Implementierungsschritte
 - excel reading
 - array generation
+- Parameter in Typen speichern
 - pure programming interface
-- transmission (doubled)
+- Besonderheiten:
+	* transmission (doubled)
+
+- Analyse (? welche Schritte sind relevant? nur solven oder auch anderes?)
 
 ## Vergleich mit URBS
 - Reduziertes Model
 - Speicher als Erhöhung der Solvetime
 - kein plotting/Verarbeiten der Ergebnisse
 - DIAGRAMME
+	* benutzte Test-Modelle einführen
 	* Zeit (overall, linear speedup, solver vs model)
 	* Speicherplatz
