@@ -1,12 +1,34 @@
-# Urbs.jl
+# Urbs.jl - Energiesystem-Modellierung mit Julia
 
-## Julia as a Python Programmer
-- Grundidee: Mischung High-level Programmiersprache (wie Matlab/Python) und der Geschwindigkeit von kompilierten Sprachen
-- Dynamic type system: Variablen können einen beliebigen Typ haben, können aber auch eingeschränkt werden
-- Arrays starten bei 1
-- Built-in package manager (ähnlich zu pip)
+## Julia als Python Programmierer
+High-level Programmiersprachen wie Matlab oder Python sind heute gerade im
+akademischen Umfeld sehr beliebt, da sie generell komplizierte Sachverhalte
+hinter einer Abstraktionsschicht verbergen und es dadurch auch unerfahrenen
+Programmierern erleichtern, komplexe Programme zu realisieren. Im Gegensatz dazu
+stehen Low-level Programmiersprachen (z.B. C, C++), welche größere Freiheiten im
+Ablauf eines Programmes erlauben, andererseits durch ihre Komplexität und
+maschinennahe Programmierung auch eine deutliche längere Einarbeitungs- und
+Entwicklungszeit benötigen. Dabei ist der Performancegewinn durch die tiefgehende
+Kontrolle meist nicht ausreichend genug, um einen Programmierer zum Wechseln zu
+bewegen.
+
+Die Entwicklung von Julia wurde davon motiviert, eine Sprache zu schaffen, welche die
+einfache Programmierung von High-level und die Geschwindigkeit einer Low-level
+Programmiersprache in sich vereint. Julia erreicht dies unter anderem  durch die
+Integration von nützlichen Hilfsprogrammen, einen Just-in-time Compiler und ein
+_dynamic type System_ wie es zum Beispiel auch Python enthält. Im Folgenden werden
+die Auswirkungen dieser Designentscheidungen aus der Sicht eines Pythonprogrammierers
+betrachtet.
+
+### Der Just-in-time Compiler
 - Just-in-time compiler vs skript sprachen
+### Dynamic type System
+- Dynamic type system: Variablen können einen beliebigen Typ haben, können aber auch eingeschränkt werden
 - Object Oriented Programming vs Types und Functions
+### Utilities und andere Unterschiede
+- Arrays starten bei 1
+- Built-in package manager (ähnlich zu pip) + shell + Hilfe
+- function parameter, default values, keyword only parameter
 
 ## Lineare Optimierung mit JuMP
 ### Einfaches Beispiel
