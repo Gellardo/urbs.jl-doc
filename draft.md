@@ -42,13 +42,16 @@ getobjectivevalue(m) == 5
 
 ### Implementierungsschritte
 - excel reading
-- array generation
-- Parameter in Typen speichern
+	* array generation
+	* Parameter in Typen speichern
 - pure programming interface
 - Besonderheiten:
-	* transmission (doubled)
+	* transmission (doubled) -> legacy schalter
 
 - Analyse (? welche Schritte sind relevant? nur solven oder auch anderes?)
+	* kombinationstyp für parameter + model (+ variablen-ergebnisse?)
+	* results speichern
+	* pickel-ersatz? extraktion der variablen
 
 ## Vergleich mit URBS
 - Reduziertes Model
