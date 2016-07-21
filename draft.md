@@ -54,25 +54,36 @@ Die Nutzung von Dynamic Dispatch in Julia erlaubt es außerdem, einen Funktionsn
 wiederzuverwenden, solange sich die Typen der Parameter unterscheiden (ansonsten wird die
 vorherige Definition der Funktion überschrieben). Folgendes Beispiel definiert erst die
 Konkatenation von zwei Strings mithilfe von "+" (welche standardmäßig nicht definiert
-ist). Die zweite Funktion definiert für alle möglichen Typen die Addition als die
-Stringkkonkatenation. Aufgrund der Dynamic Dispatch Logik von Julia wird die allgemeine
-zweite Version von "+" nur angewendet, wenn keine der spezielleren Versionen zutrifft.
-(Wird für die neue Kombination von Inputparametertypen neu kompiliert.)
+ist). Die Anotation `x::String` besagt, dass `x` nur ein Wert mit einem Subtyp von
+`String` zugewiesen werden darf.  Die zweite Funktion definiert für alle möglichen Typen
+die Addition als die Stringkkonkatenation. Aufgrund der Dynamic Dispatch Logik von Julia
+wird die allgemeine zweite Version von "+" nur angewendet, wenn keine der spezielleren
+Versionen zutrifft. Hierbei ist zu beachten, dass die Funktion für jede neue
+Typkombination von Parametern durch den JiT-Compiler neu übersetzt wird, sobald diese bei
+der Ausführung des Programmes benötigt wird. Dadurch fallen Typinkompatibilitäten der
+Parameter erst auf, wenn dies zur Laufzeit des Programms entdeckt wird.
+
 ```julia
-function +(x::String, y::String)
+function +(x::String, y::String) //(1)
  return string(x,y)
 end
 
-function +(x, y)
+function +(x, y) //(2)
  return string(x,y)
 end
 
 1 + 2 == 3 //+(Int, Int)
-"foo" + "bar" == "foobar" //+(String,String)
-"foo" + 1 == "foo1" //+(Any,Any) wird zu +(String, Int) kompiliert
+"foo" + "bar" == "foobar" //+(String,String) von (1)
+"foo" + 1 == "foo1" //+(Any,Any) von (2) wird zu +(String, Int) kompiliert
+
 ```
-- Dynamic type system: Variablen können einen beliebigen Typ haben, können aber auch eingeschränkt werden
+
 - Object Oriented Programming vs Types und Functions
+Es gibt keine Objekte in Julia, nur Typen welche mit C-structs, also reinen
+Datenspreichern gleichzusetzten sind. Dies bedeutet auch, dass alle Funktionen welche mit
+dem neuen Typen interagieren sollen nicht (wie bei Objektorientierter Programmierung)
+direkt mit dem Typen verbunden sind, sondern Julia dies erst bei dem Funktionsaufruf über
+die Parametertypen erkennt.
 
 ### Utilities und andere Unterschiede
 - Arrays starten bei 1
