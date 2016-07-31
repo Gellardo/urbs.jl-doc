@@ -79,13 +79,50 @@ end
 ```
 
 - Object Oriented Programming vs Types und Functions
-Es gibt keine Objekte in Julia, nur Typen welche mit C-structs, also reinen
+In Julia es gibt keine Objekte, nur Typen welche mit C-structs, also reinen
 Datenspreichern gleichzusetzten sind. Dies bedeutet auch, dass alle Funktionen welche mit
 dem neuen Typen interagieren sollen nicht (wie bei Objektorientierter Programmierung)
 direkt mit dem Typen verbunden sind, sondern Julia dies erst bei dem Funktionsaufruf über
-die Parametertypen erkennt.
+die Parametertypen erkennt und zuordnet.
+
+Folgende "Klassen"-Definitionen sind definieren beide eine Datenstruktur `Point` welche
+über zwei Attribute `x,y` verfügt. Über die Funktion `add` kann ein `Point` auf einen
+anderen addiert werden. Zu beachten ist hier, dass der Methodenname in Julia nach
+Konvention auf ein "!" endet, da er den inhalt eines Parameters verändert, in diesem Fall
+die Werte der Attribute `x` und `y`. Außerem bedeutet die Formulierung in Julia, dass der
+Aufruf der Funktion sich leicht verändert, da die Variable mit Typ `Point` nicht wie
+gewohnt mit `var.add(x)` aufgerufen wird, sondern als reiner Funktionsaufruf `add!(var,x)`.
+Zusätzlich konstruiert Julia automatisch einen Defaultkonstruktor, welcher so viele
+Parameter übernimmt, wie der Typ Attribute hat, also `var = Point(x,y)`. Daneben kann man
+natürlich auch weitere eigene Konstruktoren angeben.
+```Python
+# python
+class Point:
+	def __init__(self, x, y):
+		self.x = x
+		self.y = y
+	def add(self, Point p):
+		self.x += p.x
+		self.y += p.y
+```
+```julia
+// julia
+type Point
+	x::Int
+	y::Int
+end
+
+function add!(p1::Point, p2::Point)
+	p1.x += p2.x
+	p1.y += p2.y
+end
+```
 
 ### Utilities und andere Unterschiede
+Dieser Abschnitt beschäftigt sich mit einer offenen Liste von  Besonderheiten und
+Namenskonventionen bei der Verwendung von Julia.
+
+**Arrays:**
 - Arrays starten bei 1
 - Built-in package manager (ähnlich zu pip) + shell + Hilfe
 - function parameter, default values, keyword only parameter
