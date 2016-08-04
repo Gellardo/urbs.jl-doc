@@ -240,3 +240,11 @@ getobjectivevalue(m) == 5
 	* benutzte Test-Modelle einführen
 	* Zeit (overall, linear speedup, solver vs model)
 	* Speicherplatz
+
+
+------------
+Sources:
+- http://julialang.org/publications/
+- http://julia.readthedocs.io/en/release-0.4/
+- https://arxiv.org/abs/1508.01982v2 (JuMP-paper)
+- http://www.juliaopt.org/JuMP.jl/0.13/
