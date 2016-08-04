@@ -78,14 +78,15 @@ end
 
 ```
 
-- Object Oriented Programming vs Types und Functions
+**Objektorientiere Programmierung**
+
 In Julia es gibt keine Objekte, nur Typen welche mit C-structs, also reinen
 Datenspreichern gleichzusetzten sind. Dies bedeutet auch, dass alle Funktionen welche mit
 dem neuen Typen interagieren sollen nicht (wie bei Objektorientierter Programmierung)
 direkt mit dem Typen verbunden sind, sondern Julia dies erst bei dem Funktionsaufruf über
 die Parametertypen erkennt und zuordnet.
 
-Folgende "Klassen"-Definitionen sind definieren beide eine Datenstruktur `Point` welche
+Folgende "Klassen"-Definitionen definieren beide eine Datenstruktur `Point` welche
 über zwei Attribute `x,y` verfügt. Über die Funktion `add` kann ein `Point` auf einen
 anderen addiert werden. Zu beachten ist hier, dass der Methodenname in Julia nach
 Konvention auf ein "!" endet, da er den inhalt eines Parameters verändert, in diesem Fall
@@ -123,9 +124,67 @@ Dieser Abschnitt beschäftigt sich mit einer offenen Liste von  Besonderheiten u
 Namenskonventionen bei der Verwendung von Julia.
 
 **Arrays:**
-- Arrays starten bei 1
-- Built-in package manager (ähnlich zu pip) + shell + Hilfe
-- function parameter, default values, keyword only parameter
+Insbesondere bei Arrays macht sich der Einfluss der Sprache Matlab auf die Entwicklung von
+Julia bemerkbar. Einerseits ist der Index des ersten Arrayelements anders als bei
+Python die 1. Außerdem ist es einfach möglich Vektoren und Matrizen anzugeben. Zum
+Beispiel erzeugt `[1 2; 3 4]` eine 2x2 Matrix mit den Zeilenvektoren `1 2` und `3 4`.
+
+**Funktionsparameter und Namenskonventionen:**
+Julia kennt grundsätzlich mehrere Arten von Funktionsparametern: Normale
+Funktionsparameter, welche gegebenenfalls mit Standardwerten belegt werden können,
+Keyword-Parameter, welche beim Aufruf der Funktion mit Namen angegeben werden müssen sowie
+einen Defaultwert besitzen müssen und einen Aggregationsparameter für eine variable Anzahl
+an Parametern. Zu beachten ist hierbei, dass bei einer Funktionsdefinition zuerst die
+normalen Parameter angegeben werden müssen und dann, durch ein `;` getrennt, die
+Keyword-Parameter. In dem Beispiel haben wir zwei normale Parameter `a,b`, wobei b, soweit
+nicht anders angegeben mit `1` belegt wird.  Dem Keyword-Parameter `c` wird soweit nicht
+anders aufgerufen der Wert 2 zugewiesen und `args` enthält alle überzähligen Parameter als
+Tupel.
+```julia
+function foo(a, b=1; c=2, args...)
+    a, b, args, c
+end
+
+foo(1, 2, 3, 4, c=4) # returns (1,2,(3, 4),4)
+```
+Außerdem fällt auf, dass die Funktion `foo` keinen expliziten return-Befehl enthält.
+Dennoch liefert sie das Tupel `(a,b,args,c)` zurück, da Julia in einem solchen Fall den
+Rü©kgabewert der letzten Zeile der Funktion zurückgibt. Natürlich kann auch ein explizites
+`return` angegeben werden.
+
+**Utilities:**
+Die Entwickler von Julia haben bei dem Entwurf der Sprache bereits einige Dinge
+integriert, welche bei anderen Programmiersprachen erst durch externe Tools verfügbar
+sind. So gibt es zur Installation von Python-Paketen das Programm `pip`. In Julia hingegen
+ist die Paketverwaltung direkt in die Basisfunktionalität der Sprache eingebaut. Das
+Modul `Pkg` kümmert sich um die Installation und das Updaten von externen Modulen. Diese
+werden standardmäßig im Verzeichnis des aktuellen Benutzers abgelegt, sodass keine
+Administratorrechte nötig sind.
+```julia
+# Installation eines offiziellen Pakets von pkg.julialang.org
+Pkg.install("Calculus")
+
+# Installation eines Pakets von Github unter dem Namen "Modul"
+Pkg.clone("https://github.com/user/repo.git", "Modul")
+
+# Update aller installierten Pakete und deren Abhängigkeiten
+Pkg.update()
+```
+
+Zwei weitere Dinge, welche vor allem die Programmierung mit Hilfe eines Terminals
+erleichtern ist die Integration einer Shell und der Dokumentation in Form einer
+durchsuchbaren Hilfe. Durch den Druck von ";" in der interaktiven Julia-Kommandozeile
+können einzelne Shell-Befehle ausgeführt werden, ohne die Julia-Umgebung zu verlassen.
+Dokumentationsstrings von Funktionen oder Types im Quellcode können über die Hilfe in der
+Julia-Kommandozeile angezeigt werden. Hierzu wird einfach "?" vorangestellt und danach der
+gesuchte Begriff eingegeben. In dem Beispiel wird "?test" den String über der
+Funktionsdefinition zurückgeben.
+```julia
+"Dies ist der Docstring der Testfunktion"
+function test()
+	return true
+end
+```
 
 
 ## Lineare Optimierung mit JuMP
