@@ -188,7 +188,27 @@ end
 
 
 ## Lineare Optimierung mit JuMP
+Die Hauptmotivation dieser Arbeit war die Evaluierung der Open-Souce Bibliothek JuMP.jl in
+Hinsicht auf die Verwendung zur Lösung von Problemen aus dem Bereich der liniaren
+Optimierung. Insbesondere der Vergleich mit der auf Python baiserenden Grundlage Pyomo des
+Programmes URBS im Bereich der Performance bei großen Problemstellungen wird verglichen
+werden. Außerdem beherrscht JuMP auch weitere Problemklassen, welche hier jedoch nicht von
+Bedeutung sind. Zudem befindet sich JuMP ebenso wie Julia noch in der aktiven Entwicklung,
+weshalb die Spezifikation noch öfteren Veränderungen unterworfen ist.
+
 ### Einfaches Beispiel
+Als einfachen Einstieg wird das triviale Problem
+$$ \max_{x,y} x+y_{} $$
+$$ s.t.\; x \leq 3 \land y \leq 2 $$
+in JuMP formuliert und gelöst. Zunächst wird das Paket JuMP importiert und ein leeres
+Modell erzeugt. Anschließend werden dem Modell erst Variablen und dann die begleitenden
+Gleichungen hinzugefügt. Hierzu werden anstatt von Funktionen Makros genutzt, um die
+jeweiligen Anweisungen umzusetzen. Makros unterscheiden sich in der Verwendung lediglich
+durch das vorangestellte "@" von Funktionen, werden jedoch dazu genutzt, um während der
+Laufzeit des Programmes angepassten Code zu generieren. Abschließend wird des Modell
+gelöst und das Ergebnis des als Objective gegebenen Terms mit dem richtigen Ergebnis
+verglichen.
+
 ```julia
 using JuMP
 
@@ -206,8 +226,30 @@ getobjectivevalue(m) == 5
 ```
 
 ### Grundlagen der Linearen Optimierung
-- Variablen und Objective
-- Bedingungen und Summen
+**Variablen:**
+Nach der Erstellung eines Modells muss diesem zunächst eine Menge an Variablen zugewiesen
+werden, welche später während der Optimierung verändert werden dürfen. Um eine Variable
+dem Modell `m` hinzuzufügen muss das Makro `@variable` aufgerufen werden. Hierbei können
+bereits erste Einschränkungen auf die Variable angewendet werden. So können optional
+Ober- und Untergrenzen angegeben werden, ein ganzer Vektor an Variablen auf einmal
+definiert und der Type der Variable festgelegt werden. Ohne weitere Einschränkungen ist
+die definierte Variable automatisch eine unbeschränkte Fließkommazahl.
+```julia
+@variable(m, 0 <= x <= 5) # x als Fließkommazahl zwischen 0 und 5
+@variable(m, y[1:5], Int) # y als 5-elementiger Vektor aus Ganzzahlen
+```
+**Bedingungen und Objective**
+Die wohl Wichtigste Angabe des Modells ist die zu optimierende Gleichung. Diese wird über
+das Makro `@objective` festgelegt, wobei der zweite Parameter die Art der Optimierung
+(Min oder Max) angibt, während der dritte Parameter die zu optimierende
+Gleichung enthält.
+
+Zusätzlich gibt es Bedingungen welche die Lösung erfüllen muss, um für das Problem gültig
+zu sein. Hierfür wird das Makro `@constraint` genutzt. _TODO: einzelne constraint, mehrere
+constraints in einem, efficient sums_
+
+**Solver**
+TODO
 - Solver-Einstellungen
 - more matrix oriented in comparison to Pyomo
 	* keine Mengen -> Daten müssen selbst durch Arrays organisiert werden
@@ -230,7 +272,7 @@ getobjectivevalue(m) == 5
 - Analyse (? welche Schritte sind relevant? nur solven oder auch anderes?)
 	* kombinationstyp für parameter + model (+ variablen-ergebnisse?)
 	* results speichern
-	* pickel-ersatz? extraktion der variablen
+	* pickel-ersatz? extraktion der variablen: JLD paket
 
 ## Vergleich mit URBS
 - Reduziertes Model
