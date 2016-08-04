@@ -64,17 +64,17 @@ der Ausführung des Programmes benötigt wird. Dadurch fallen Typinkompatibilit�
 Parameter erst auf, wenn dies zur Laufzeit des Programms entdeckt wird.
 
 ```julia
-function +(x::String, y::String) //(1)
+function +(x::String, y::String) #(1)
  return string(x,y)
 end
 
-function +(x, y) //(2)
+function +(x, y) #(2)
  return string(x,y)
 end
 
-1 + 2 == 3 //+(Int, Int)
-"foo" + "bar" == "foobar" //+(String,String) von (1)
-"foo" + 1 == "foo1" //+(Any,Any) von (2) wird zu +(String, Int) kompiliert
+1 + 2 == 3 #+(Int, Int)
+"foo" + "bar" == "foobar" #+(String,String) von (1)
+"foo" + 1 == "foo1" #+(Any,Any) von (2) wird zu +(String, Int) kompiliert
 
 ```
 
@@ -107,7 +107,7 @@ class Point:
 		self.y += p.y
 ```
 ```julia
-// julia
+# julia
 type Point
 	x::Int
 	y::Int
