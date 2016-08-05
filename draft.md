@@ -245,15 +245,37 @@ unbeschränkte Fließkommazahl.
 @variable(m, 0 <= x <= 5) # x als Fließkommazahl zwischen 0 und 5
 @variable(m, y[1:5], Int) # y als 5-elementiger Vektor aus Ganzzahlen
 ```
-**Bedingungen und Objective**
-Die wohl Wichtigste Angabe des Modells ist die zu optimierende Gleichung. Diese
-wird über das Makro `@objective` festgelegt, wobei der zweite Parameter die Art
-der Optimierung (Min oder Max) angibt, während der dritte Parameter die zu
-optimierende Gleichung enthält.
+**Bedingungen und Objective** Die wohl Wichtigste Angabe des Modells ist die zu
+optimierende Gleichung. Diese wird über das Makro `@objective` festgelegt, wobei
+der zweite Parameter die Art der Optimierung (Min oder Max) angibt, während der
+dritte Parameter die zu optimierende Gleichung enthält.
 
 Zusätzlich gibt es Bedingungen welche die Lösung erfüllen muss, um für das
-Problem gültig zu sein. Hierfür wird das Makro `@constraint` genutzt. _TODO:
-einzelne constraint, mehrere constraints in einem, efficient sums_
+Problem gültig zu sein. Hierfür wird das Makro `@constraint` genutzt. In seiner
+einfachsten Form fügt das Makro dem Modell eine einzelne (Un-)Gleichung hinzu,
+welche einfach in normaler Syntax angegeben wird. Grundsätzlich lassen sich
+damit auch die Elemente eines Vektors einzeln innerhalb einer For-Schleife mit
+Bedingungen versehen. Es gibt jedoch bereits eine kompaktere Variante um für
+eine bestimmte Anzahl an Elementen die selbe Bedingung hinzuzufügen. Hierzu wird
+vor der eigentlichen Bedingung ein "Bedingungsname" vergeben sowie eine Anzahl
+an Variablen definiert, welche im Folgenden durchlaufen werden sollen. Die
+Variablen werden als Intervall, also `1:x`, und können somit als Indices für die
+Variablen-Vektoren des Modells genutzt werden.
+
+```julia
+@constraint(m, x + y <= 3)
+@constraint(m, leistung[t = 1:10], leistung[t] <= 10)
+```
+
+Ähnlich wie bei der zweiten Version der Constraints, gibt es aus Gründen der
+Effizienz für die Bildung von Summen innerhalb der Objective oder eines
+Constraints eine Variante, welche in der Performance idealer läuft als ein
+händisches Addieren aller relevanten Werte. Über den Ausdruck
+```julia
+sum{ausdruck, x = 1:10; optionaler_If_Teil}
+```
+kann ähnlich zu der aggregierten Bedingung sehr effizient die Summe über einen
+Vektor bestimmt werden.
 
 **Solver**
 TODO
