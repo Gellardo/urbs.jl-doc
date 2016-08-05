@@ -201,7 +201,8 @@ baiserenden Grundlage Pyomo des Programmes URBS im Bereich der Performance bei
 großen Problemstellungen wird verglichen werden. Außerdem beherrscht JuMP auch
 weitere Problemklassen, welche hier jedoch nicht von Bedeutung sind. Zudem
 befindet sich JuMP ebenso wie Julia noch in der aktiven Entwicklung, weshalb die
-Spezifikation noch öfteren Veränderungen unterworfen ist.
+Spezifikation noch öfteren Veränderungen unterworfen ist und dementsprechend die
+entsprechende Onlinedokumentation sehr hilfreich ist.
 
 ### Einfaches Beispiel
 Als einfachen Einstieg wird das triviale Problem
@@ -232,19 +233,26 @@ solve(m)
 getobjectivevalue(m) == 5
 ```
 
-### Grundlagen der Linearen Optimierung **Variablen:** Nach der Erstellung eines
-Modells muss diesem zunächst eine Menge an Variablen zugewiesen werden, welche
-später während der Optimierung verändert werden dürfen. Um eine Variable dem
-Modell `m` hinzuzufügen muss das Makro `@variable` aufgerufen werden. Hierbei
-können bereits erste Einschränkungen auf die Variable angewendet werden. So
-können optional Ober- und Untergrenzen angegeben werden, ein ganzer Vektor an
-Variablen auf einmal definiert und der Type der Variable festgelegt werden. Ohne
-weitere Einschränkungen ist die definierte Variable automatisch eine
-unbeschränkte Fließkommazahl.
+### Grundlagen der Linearen Optimierung
+**Variablen:**
+Nach der Erstellung eines Modells muss diesem zunächst eine Menge an Variablen
+zugewiesen werden, welche später während der Optimierung verändert werden
+dürfen. Um eine Variable dem Modell `m` hinzuzufügen muss das Makro `@variable`
+aufgerufen werden. Hierbei können bereits erste Einschränkungen auf die Variable
+angewendet werden. So können optional Ober- und Untergrenzen angegeben werden,
+ein ganzer Vektor an Variablen auf einmal definiert und der Type der Variable
+festgelegt werden. Ohne weitere Einschränkungen ist die definierte Variable
+automatisch eine unbeschränkte Fließkommazahl.
 ```julia
 @variable(m, 0 <= x <= 5) # x als Fließkommazahl zwischen 0 und 5
 @variable(m, y[1:5], Int) # y als 5-elementiger Vektor aus Ganzzahlen
 ```
+Grundsätzlich ist anzumerken, dass die Modellierung von Variablen sehr nahe an
+der mathematischen Grundlage verbleibt. Im Gegensatz zu Pyomo gibt es keine
+definierten Mengen, welche durch Bedingungen eingeschränkt werden und das Modell
+repräsentieren. Bei JuMP müssen zusätzliche Modellinformationen wie Konstanten
+selbst verwaltet werden.
+
 **Bedingungen und Objective** Die wohl Wichtigste Angabe des Modells ist die zu
 optimierende Gleichung. Diese wird über das Makro `@objective` festgelegt, wobei
 der zweite Parameter die Art der Optimierung (Min oder Max) angibt, während der
@@ -275,14 +283,27 @@ händisches Addieren aller relevanten Werte. Über den Ausdruck
 sum{ausdruck, x = 1:10; optionaler_If_Teil}
 ```
 kann ähnlich zu der aggregierten Bedingung sehr effizient die Summe über einen
-Vektor bestimmt werden.
+Vektor mit den Indizes `x` bestimmt werden.
 
 **Solver**
-TODO
-- Solver-Einstellungen
-- more matrix oriented in comparison to Pyomo
-	* keine Mengen -> Daten müssen selbst durch Arrays organisiert werden
-	* Verbindung zwischen Modell und Daten durch Arrayindizes
+JuMP unterstützt mehrere kommerzielle und Open-Source Solver. Ohne abweichende
+Konfiguration verwendet es den GLPK Solver. Diese Einstellung kann jedoch
+verändert werden um alternative Solver zu verwenden. Diese Entscheidung wird bei
+der Erstellung des Modells getroffen, indem dem Konstruktor als Parameter ein
+spezifischer Solver mitgegeben wird. Dies bedingt natürlich auch, dass die
+erforderlichen Pakete und Software für den jeweiligen Solver vorliegen.
+Folgendes Beispiel illustriert die Verwendung des Gurobi-Solvers.
+```julia
+# Installation des Gurobi-Pakets
+Pkg.add("Gurobi")
+
+# Import der relevanten Pakete
+using JuMP
+using Gurobi
+
+# Erstellung des Modells mit dem Gurobi Solver
+m = Model(solver=GurobiSolver())
+```
 
 ## Reduziertes Urbs Model
 - Modellbausteine mit Parametern und Variablen
@@ -291,6 +312,7 @@ TODO
 	* ...
 
 ### Implementierungsschritte
+
 - excel reading
 	* array generation
 	* Parameter in Typen speichern
