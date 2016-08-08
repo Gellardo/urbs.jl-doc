@@ -305,22 +305,70 @@ using Gurobi
 m = Model(solver=GurobiSolver())
 ```
 
-## Reduziertes Urbs Model
+## Urbs.jl
+### Reduziertes Urbs-Model
+- Kraftwerksausbau/-einsatzplanung und Infrastukturausbau für
+  Speicher/ Leitungen
 - Modellbausteine mit Parametern und Variablen
+	* bestehen alle grundsätzlich aus 3 Variablen: Kapazität, Kostenvektor,
+	  Auslastung
 	* Sites
 	* Processes
 	* ...
 
-### Implementierungsschritte
+### Implementierung
+Urbs.jl ist als Julia-Modul realisiert. Dadurch lässt sich Urbs sehr einfach
+mitsamt seiner Abhängigkeiten durch den Paketmanager von Julia installieren.
+Alleine zum Lesen von Excel-Files wird zusätzlich das externe Python-Programm
+*xlrd* benötigt.
 
-- excel reading
-	* array generation
-	* Parameter in Typen speichern
-- pure programming interface
-- Besonderheiten:
-	* transmission (doubled) -> legacy schalter
+Das Modul besteht hauptsächlich aus drei Bestandteilen: Einerseits müssen die
+Typen aus dem mathematischen Modell in Julia übernommen werden, andererseits
+muss aus einem gegebenen Set dieser Typen ein Modell erstellt werden. Zuletzt
+wurde eine Methode implementiert, welche die benötigten Daten aus einem
+Exceldokument ausließt und in die Julia-Typen transferiert.
 
-- Analyse (? welche Schritte sind relevant? nur solven oder auch anderes?)
+**Typen:**
+Um die Parameter eines Elements aus den zuvor beschriebenen Mengen zu
+verwenden, werden diese in einem Typen gesammelt. Auf diese Weise sind sämtliche
+Informationen zu einer Instanz in einem geordneten Format gespeichert. Da Typen
+auch die Vergabe von Namen an die gespeicherten Werte erlauben, sind sie aus
+Dokumentationssicht hierfür besser geeignet als ein Tupel der Parameter. Die
+Inhalte eines Typen korrespondieren direkt mit den beschriebenen Parametern des
+Modells.
+
+**Modellierung:**
+Nachdem die Parameter des Modells in die Typen übernommen und in
+Arrays gespeichert wurden, fügt die Methode `build_model` die Parameter und
+Variablen zu einem JuMP Modell zusammen. Hierbei ist stets zu beachten, die
+richtigen Parameter mit den korrespondierenden Variablen zusammenzubringen. Im
+einfachsten Fall bedeutet dies die Verwendung des selben Index bei dem Zugriff
+auf Variable und Parameter, im komplizierten Fall wie z.B. den zwei Richtungen
+einer Überlandleitung muss der Zusammenhang zwischen zwei Sätzen von Parametern
+auf irgendeine Weise definiert und bei nachfolgenden Zugriffen eingehalten
+werden. Davon abgesehen wird das Urbs-Modell direkt auf die JuMP Syntax
+abgebildet.
+
+**Übergabe der Parameter:**
+Hierzu wurden zwei Wege ermöglicht, entweder werden
+die Typen direkt in Julia mit den passenden Parametern programmatisch erstellt
+oder sie werden gemäß der Musterdatei als Excelfile übergeben und befüllt.
+Hierzu wird das Julia-Paket `ExcelReaders` verwendet, welches die Informationen
+eines Exceldokuments als Array extrahieren kann. In diesem Schritt werden
+gegebenenfalls auch Abstraktionen des Exceldokuments rückgängig gemacht, wie zum
+Beispiel die Trennung der Commodities von den Prozessen, um die Commoditypreise
+per Site angeben zu können. Abschließend wird jede Menge des Modells zu einem
+Array zusammengefasst, welche der `build_model`-Methode übergeben werden.
+
+Aus Kompatibilitätsgründen gibt es zudem ein `legacy`-Flag in der zuständigen
+Methode. Im ursprünglichen Dokumentenformat wurde jede Richtung einer
+Überlandleitung gesondert angegeben während Urbs.jl jede Angabe als Leitung in
+beide Richtungen interpretiert und die nötigen Änderungen an den Parametern
+vornimmt. Das Flag kann somit genutzt werden um die Angaben zwischen Urbs und
+Urbs.jl auszutauschen ohne weitere Code-Änderungen vornehmen zu müssen.
+
+**Analyse:**
+	* nur modelling + solving
 	* kombinationstyp für parameter + model (+ variablen-ergebnisse?)
 	* results speichern
 	* pickel-ersatz? extraktion der variablen: JLD paket
