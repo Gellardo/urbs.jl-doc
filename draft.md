@@ -83,7 +83,6 @@ end
 ```
 
 **Objektorientiere Programmierung**
-
 In Julia es gibt keine Objekte, nur Typen welche mit C-structs, also reinen
 Datenspreichern gleichzusetzten sind. Dies bedeutet auch, dass alle Funktionen
 welche mit dem neuen Typen interagieren sollen nicht (wie bei Objektorientierter
@@ -208,7 +207,7 @@ entsprechende Onlinedokumentation sehr hilfreich ist.
 Als einfachen Einstieg wird das triviale Problem
 $$ \max_{x,y} x+y_{} $$
 $$ s.t.\; x \leq 3 \land y \leq 2 $$
-in JuMP formuliert und gelöst. Zunächst wird das Paket JuMP importiert und ein
+in JuMP formuliert und gelöst. Zunächst wird das Paket `JuMP` importiert und ein
 leeres Modell erzeugt.  Anschließend werden dem Modell erst Variablen und dann
 die begleitenden Gleichungen hinzugefügt. Hierzu werden anstatt von Funktionen
 Makros genutzt, um die jeweiligen Anweisungen umzusetzen. Makros unterscheiden
@@ -368,15 +367,33 @@ vornimmt. Das Flag kann somit genutzt werden um die Angaben zwischen Urbs und
 Urbs.jl auszutauschen ohne weitere Code-Änderungen vornehmen zu müssen.
 
 **Analyse:**
-	* nur modelling + solving
-	* kombinationstyp für parameter + model (+ variablen-ergebnisse?)
-	* results speichern
-	* pickel-ersatz? extraktion der variablen: JLD paket
+Im Vergleich zu Urbs implementiert Urbs.jl lediglich die Modellerstellung und
+Lösung, nicht jedoch eine weitere Verarbeitung oder Visualisierung der
+Ergebnisse. Um eine geordnete Analyse aller Werte zu ermöglichen wurde ein
+weiterer Typ eingeführt, welcher die Eingangswerte und Ergebnisse zusammen in
+geordneter Art speichern zu können. Dieser Typ kann zudem serialisiert werden um
+zu einem späteren Zeitpunkt auf die Ergebnisse zugreifen zu können, ohne das
+Modell erneut lösen zu müssen. Dies ist beispielhaft mit dem Julia-Paket `JLD`
+implementiert, welches Julia Datentypen in einer modifizierten HDF5-Syntax
+speichern und laden kann.
 
 ## Vergleich mit URBS
-- Reduziertes Model
-- Speicher als Erhöhung der Solvetime
-- kein plotting/Verarbeiten der Ergebnisse
+Im Vergleich zu dem Ursprungsmodell enthält das implementierte Modell
+ausschließlich die Grundelemente. Dies bedeutet, dass die ermittelten Zeiten
+nicht im direkten Verhältnis zu betrachten sind, da Urbs einige Parameter mehr
+berücksichtigt, selbst wenn diese auf ein Nullelement gesetzt werden und somit
+bei der Lösung des Modells nicht mit eingehen. Dieser Aspekt muss bei der
+Betrachtung der Performance beachtet werden.
+
+Das Wichtigste Element zu Erhöhung der Lösungszeit ist die Involvierung des
+Energiespeichers, durch die zusätzliche Verknüpfung der einzelnen Zeitschritte.
+Da dieses Element in beiden betrachteten Programmen vorhanden ist, lässt sich
+zudem das Verhältnis zwischen Modellerstellung und Lösungszeit bewerten.
+
+Somit wird hauptsächlich die Zeit zur Erstellung des Modells bewertet, welche
+stark von der verwendeten Bibliothek abhängig ist. Das Einlesen der Daten und
+die Verarbeitung der Ergebnisse ist nicht Teil dieser Arbeit.
+
 - DIAGRAMME
 	* benutzte Test-Modelle einführen
 	* Zeit (overall, linear speedup, solver vs model)
@@ -389,3 +406,4 @@ Sources:
 - http://julia.readthedocs.io/en/release-0.4/
 - https://arxiv.org/abs/1508.01982v2 (JuMP-paper)
 - http://www.juliaopt.org/JuMP.jl/0.13/
+-https://www.hdfgroup.org/HDF5/
