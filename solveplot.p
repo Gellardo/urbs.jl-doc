@@ -4,6 +4,7 @@ unset label
 set xtic auto
 set ytic auto
 set title "Time for model solve"
+set key right center
 set ylabel "Time (s)"
 set xlabel "Number of Timesteps"
 set xr [0:300]
