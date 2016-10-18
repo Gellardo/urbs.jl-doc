@@ -1,6 +1,9 @@
-% Urbs.jl - Eine Julia-Implementierung des Urbs-Modells
-% Frank Schmidt
-% 19.10.2016
+---
+title: Urbs.jl - Eine Julia-Implementierung des Urbs-Modells
+author: Frank Schmidt
+date: 19.10.2016
+outertheme: infolines
+---
 
 # Motivation
 ##
@@ -83,7 +86,7 @@ end
 			   * transmissions[tr].efficiency)
 ```
 
-# Testergebnisse
+# Evaluierung von Urbs.jl
 ## Optimierung
 ![Zeit für die Optimierung in Abhängigkeit der Zeitschritte](images/solve.png)
 
@@ -92,6 +95,10 @@ end
 
 ## Speicherverbrauch
 ![Speicherverbrauch der Modellerzeugung in Abhängigkeit der Zeitschritte](images/memory.png)
+
+## Future Work
+- Erweiterung des Modells
+- Auswertung und Visualisierung der Ergebnisse
 
 ## Ergebnis
 - JuMP nah an der mathematischen Formel
