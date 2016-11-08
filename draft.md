@@ -1,6 +1,11 @@
-# Urbs.jl - Energiesystem-Modellierung mit Julia
+---
+title: Urbs.jl -Energiesystem-Modellierung mit Julia
+author: Frank Schmidt
+lang: de
+bibliography: lit.bib
+---
 
-## Julia als Python Programmierer
+# Julia als Python Programmierer
 High-level Programmiersprachen wie Matlab oder Python sind heute gerade im
 akademischen Umfeld sehr beliebt, da sie generell komplizierte Sachverhalte
 hinter einer Abstraktionsschicht verbergen und es dadurch auch unerfahrenen
@@ -12,7 +17,7 @@ Entwicklungszeit benötigen. Dabei ist der Performancegewinn durch die tiefgehen
 Kontrolle meist nicht ausreichend genug, um einen Programmierer zum Wechseln zu
 bewegen.
 
-Die Entwicklung von Julia wurde davon motiviert, eine Sprache zu schaffen,
+Die Entwicklung von Julia [@julia] wurde davon motiviert, eine Sprache zu schaffen,
 welche die einfache Programmierung von High-level und die Geschwindigkeit einer
 Low-level Programmiersprache in sich vereint. Julia erreicht dies unter anderem
 durch die Integration von nützlichen Hilfsprogrammen, einen Just-in-time
@@ -20,7 +25,7 @@ Compiler und ein _dynamic type System_ wie es zum Beispiel auch Python enthält.
 Im Folgenden werden die Auswirkungen dieser Designentscheidungen aus der Sicht
 eines Pythonprogrammierers betrachtet.
 
-### Der Just-in-time Compiler
+## Der Just-in-time Compiler
 Sprachen wie Python verwenden (standardmäßig) einen sogenannten Interpreter um
 Programmcode direkt auszuführen. Dies bedeutet, dass der Interpreter  die
 Befehle "ließt" und dann die entsprechenden Befehle ausführt. Im Gegensatz
@@ -37,7 +42,7 @@ die Nutzung eines dynamischen Typsystems nutzen zu können, kompiliert der
 JiT-Compiler abhängig vom Typ der Parameter, was wiederum impliziert, dass
 typunverträglichkeiten erst bei der Ausführung programmatisch erkannt werden.
 
-### Dynamic type System
+## Dynamic type System
 Ähnlich zu Python verzichtet auch Julia auf statische Typdefinitionen von
 Variablen und speichert stattdessen den Typ einer Variable zur Laufzeit und
 bestimmt Typänderungen durch eine Typ-Hierarchie oder durch Kopie des Types bei
@@ -123,7 +128,7 @@ function add!(p1::Point, p2::Point)
 end
 ```
 
-### Utilities und andere Unterschiede
+## Utilities und andere Unterschiede
 Dieser Abschnitt beschäftigt sich mit einer offenen Liste von  Besonderheiten
 und Namenskonventionen bei der Verwendung von Julia.
 
@@ -192,18 +197,18 @@ end
 ```
 
 
-## Lineare Optimierung mit JuMP
+# Lineare Optimierung mit JuMP
 Die Hauptmotivation dieser Arbeit war die Evaluierung der Open-Souce Bibliothek
-JuMP.jl in Hinsicht auf die Verwendung zur Lösung von Problemen aus dem Bereich
+JuMP.jl[@jump] in Hinsicht auf die Verwendung zur Lösung von Problemen aus dem Bereich
 der liniaren Optimierung. Insbesondere der Vergleich mit der auf Python
-baiserenden Grundlage Pyomo des Programmes URBS im Bereich der Performance bei
+baiserenden Grundlage Pyomo[@pyomo] des Programmes URBS im Bereich der Performance bei
 großen Problemstellungen wird verglichen werden. Außerdem beherrscht JuMP auch
 weitere Problemklassen, welche hier jedoch nicht von Bedeutung sind. Zudem
 befindet sich JuMP ebenso wie Julia noch in der aktiven Entwicklung, weshalb die
 Spezifikation noch öfteren Veränderungen unterworfen ist und dementsprechend die
 entsprechende Onlinedokumentation sehr hilfreich ist.
 
-### Einfaches Beispiel
+## Einfaches Beispiel
 Als einfachen Einstieg wird das triviale Problem
 $$ \max_{x,y} x+y_{} $$
 $$ s.t.\; x \leq 3 \land y \leq 2 $$
@@ -232,7 +237,7 @@ solve(m)
 getobjectivevalue(m) == 5
 ```
 
-### Grundlagen der Linearen Optimierung
+## Grundlagen der Linearen Optimierung
 **Variablen:**
 Nach der Erstellung eines Modells muss diesem zunächst eine Menge an Variablen
 zugewiesen werden, welche später während der Optimierung verändert werden
@@ -304,8 +309,8 @@ using Gurobi
 m = Model(solver=GurobiSolver())
 ```
 
-## Urbs.jl
-### Reduziertes Urbs-Model
+# Urbs.jl
+## Reduziertes Urbs-Model
 - Kraftwerksausbau/-einsatzplanung und Infrastukturausbau für
   Speicher/ Leitungen
 - Modellbausteine mit Parametern und Variablen
@@ -315,7 +320,7 @@ m = Model(solver=GurobiSolver())
 	* Processes
 	* ...
 
-### Implementierung
+## Implementierung
 Urbs.jl ist als Julia-Modul realisiert. Dadurch lässt sich Urbs sehr einfach
 mitsamt seiner Abhängigkeiten durch den Paketmanager von Julia installieren.
 Alleine zum Lesen von Excel-Files wird zusätzlich das externe Python-Programm
@@ -377,7 +382,7 @@ Modell erneut lösen zu müssen. Dies ist beispielhaft mit dem Julia-Paket `JLD`
 implementiert, welches Julia Datentypen in einer modifizierten HDF5-Syntax
 speichern und laden kann.
 
-## Vergleich mit URBS
+# Vergleich mit URBS
 Im Vergleich zu dem Ursprungsmodell enthält das implementierte Modell
 ausschließlich die Grundelemente. Dies bedeutet, dass die ermittelten Zeiten
 nicht im direkten Verhältnis zu betrachten sind, da Urbs einige Parameter mehr
@@ -401,9 +406,12 @@ die Verarbeitung der Ergebnisse ist nicht Teil dieser Arbeit.
 
 
 ------------
+
 Sources:
 - http://julialang.org/publications/
 - http://julia.readthedocs.io/en/release-0.4/
 - https://arxiv.org/abs/1508.01982v2 (JuMP-paper)
 - http://www.juliaopt.org/JuMP.jl/0.13/
 -https://www.hdfgroup.org/HDF5/
+
+# References
