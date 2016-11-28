@@ -28,19 +28,19 @@ eines Pythonprogrammierers betrachtet.
 ## Der Just-in-time Compiler
 Sprachen wie Python verwenden (standardmäßig) einen sogenannten Interpreter um
 Programmcode direkt auszuführen. Dies bedeutet, dass der Interpreter  die
-Befehle "ließt" und dann die entsprechenden Befehle ausführt. Im Gegensatz
+Befehle "liest" und dann die entsprechenden Befehle ausführt. Im Gegensatz
 hierzu erzeugt ein Just-in-time Compiler zunächst aus dem gegebenen
-menschenlesbaren Quellcode maschienenlesbaren ausführbaren Maschienencode.
+menschenlesbaren Quellcode maschinenlesbaren ausführbaren Maschinencode.
 Dieser kann von dem Compiler optimiert werden, sodass die Performance des
 Programmes im Allgemeinen besser ist als bei einem Interpreter. Eine
 Besonderheit eines *Just-in-time* Compilers ist, dass dieser Übersetzungsprozess
 nur für die Quellcode-Fragmente erfolgt, welche ausgeführt werden sollen. Gibt
 es also beispielsweise Funktionen, welche nicht benutzt werden, so werden diese
-nicht compiliert und dadurch Zeit gespart. Dies bedeutet aber wiederum, dass der
+nicht kompiliert und dadurch Zeit gespart. Dies bedeutet aber wiederum, dass der
 Programmstart im Allgemeinen durch die nötige Kompilierung verzögert wird. Um
 die Nutzung eines dynamischen Typsystems nutzen zu können, kompiliert der
 JiT-Compiler abhängig vom Typ der Parameter, was wiederum impliziert, dass
-typunverträglichkeiten erst bei der Ausführung programmatisch erkannt werden.
+Typunverträglichkeiten erst bei der Ausführung programmatisch erkannt werden.
 
 ## Dynamic type System
 Ähnlich zu Python verzichtet auch Julia auf statische Typdefinitionen von
@@ -53,9 +53,10 @@ b = a * 1.0
 ```
 folgt dass `a` ein Integer ist und `b` ein Float (da bei einer Multiplikation
 von unterschiedlichen Typen das Ergebnis den allgemeineren Typ annimmt). Jedoch
-dann, im Unterschied zum Python-Standard, der Programmierer auch den Typ eines
-Ausdrucks angeben.  Dies kann beispielsweise zur Dokumentation und Einschränkung
-eines Funktionsparameters auf einen bestimmten Typen genutzt werden.
+kann dann, im Unterschied zum Python-Standard, der Programmierer auch den Typ
+eines Ausdrucks angeben.  Dies kann beispielsweise zur Dokumentation und
+Einschränkung eines Funktionsparameters auf einen bestimmten Typen genutzt
+werden.
 
 Die Nutzung von Dynamic Dispatch in Julia erlaubt es außerdem, einen
 Funktionsnamen wiederzuverwenden, solange sich die Typen der Parameter
@@ -64,7 +65,7 @@ unterscheiden (ansonsten wird die vorherige Definition der Funktion
 Strings mithilfe von "+" (welche standardmäßig nicht definiert ist). Die
 Anotation `x::String` besagt, dass `x` nur ein Wert mit einem Subtyp von
 `String` zugewiesen werden darf.  Die zweite Funktion definiert für alle
-möglichen Typen die Addition als die Stringkkonkatenation. Aufgrund der Dynamic
+möglichen Typen die Addition als die Stringkonkatenation. Aufgrund der Dynamic
 Dispatch Logik von Julia wird die allgemeine zweite Version von "+" nur
 angewendet, wenn keine der spezielleren Versionen zutrifft. Hierbei ist zu
 beachten, dass die Funktion für jede neue Typkombination von Parametern durch
@@ -88,18 +89,18 @@ end
 ```
 
 **Objektorientiere Programmierung**
-In Julia es gibt keine Objekte, nur Typen welche mit C-structs, also reinen
-Datenspreichern gleichzusetzten sind. Dies bedeutet auch, dass alle Funktionen
-welche mit dem neuen Typen interagieren sollen nicht (wie bei Objektorientierter
+In Julia gibt es keine Objekte, nur Typen, welche mit C-structs, also reinen
+Datenspeichern gleichzusetzen sind. Dies bedeutet auch, dass alle Funktionen,
+welche mit dem neuen Typen interagieren sollen, nicht (wie bei Objektorientierter
 Programmierung) direkt mit dem Typen verbunden sind, sondern Julia dies erst bei
 dem Funktionsaufruf über die Parametertypen erkennt und zuordnet.
 
-Folgende "Klassen"-Definitionen definieren beide eine Datenstruktur `Point`
+Folgende "Klassen"-Definitionen beschreiben beide eine Datenstruktur `Point`,
 welche über zwei Attribute `x,y` verfügt. Über die Funktion `add` kann ein
 `Point` auf einen anderen addiert werden. Zu beachten ist hier, dass der
-Methodenname in Julia nach Konvention auf ein "!" endet, da er den inhalt eines
+Methodenname in Julia nach Konvention auf ein "!" endet, da er den Inhalt eines
 Parameters verändert, in diesem Fall die Werte der Attribute `x` und `y`.
-Außerem bedeutet die Formulierung in Julia, dass der Aufruf der Funktion sich
+Außerdem bedeutet die Formulierung in Julia, dass der Aufruf der Funktion sich
 leicht verändert, da die Variable mit Typ `Point` nicht wie gewohnt mit
 `var.add(x)` aufgerufen wird, sondern als reiner Funktionsaufruf `add!(var,x)`.
 Zusätzlich konstruiert Julia automatisch einen Defaultkonstruktor, welcher so
@@ -138,17 +139,17 @@ Arrayelements anders als bei Python die 1. Außerdem ist es einfach möglich
 Vektoren und Matrizen anzugeben. Zum Beispiel erzeugt `[1 2; 3 4]` eine 2x2
 Matrix mit den Zeilenvektoren `1 2` und `3 4`.
 
-**Funktionsparameter und Namenskonventionen:** Julia kennt grundsätzlich mehrere
-Arten von Funktionsparametern: Normale Funktionsparameter, welche gegebenenfalls
-mit Standardwerten belegt werden können, Keyword-Parameter, welche beim Aufruf
-der Funktion mit Namen angegeben werden müssen sowie einen Defaultwert besitzen
-müssen und einen Aggregationsparameter für eine variable Anzahl an Parametern.
-Zu beachten ist hierbei, dass bei einer Funktionsdefinition zuerst die normalen
-Parameter angegeben werden müssen und dann, durch ein `;` getrennt, die
-Keyword-Parameter. In dem Beispiel haben wir zwei normale Parameter `a,b`, wobei
-b, soweit nicht anders angegeben mit `1` belegt wird.  Dem Keyword-Parameter `c`
-wird soweit nicht anders aufgerufen der Wert 2 zugewiesen und `args` enthält
-alle überzähligen Parameter als Tupel.
+**Funktionsparameter und Namenskonventionen:** Julia kennt grundsätzlich
+mehrere Arten von Funktionsparametern: Normale Funktionsparameter, welche
+gegebenenfalls mit Standardwerten belegt werden können, Keyword-Parameter,
+welche beim Aufruf der Funktion mit Namen angegeben werden, sowie einen
+Defaultwert und einen Aggregationsparameter für eine variable Anzahl an
+Parametern besitzen müssen.  Zu beachten ist hierbei, dass bei einer
+Funktionsdefinition zuerst die normalen Parameter angegeben werden müssen und
+dann, durch ein `;` getrennt, die Keyword-Parameter. In dem Beispiel haben wir
+zwei normale Parameter `a,b`, wobei `b`, soweit nicht anders angegeben mit `1`
+belegt wird.  Dem Keyword-Parameter `c` wird, soweit nicht anders aufgerufen,
+der Wert 2 zugewiesen und `args` enthält alle überzähligen Parameter als Tupel.
 ```julia
 function foo(a, b=1; c=2, args...)
     a, b, args, c
@@ -180,12 +181,12 @@ Pkg.clone("https://github.com/user/repo.git", "Modul")
 Pkg.update()
 ```
 
-Zwei weitere Dinge, welche vor allem die Programmierung mit Hilfe eines Terminals
-erleichtern ist die Integration einer Shell und der Dokumentation in Form einer
-durchsuchbaren Hilfe. Durch den Druck von ";" in der interaktiven
+Zwei weitere Dinge, welche vor allem die Programmierung mit Hilfe eines
+Terminals erleichtern, ist die Integration einer Shell und der Dokumentation in
+Form einer durchsuchbaren Hilfe. Durch den Druck von ";" in der interaktiven
 Julia-Kommandozeile können einzelne Shell-Befehle ausgeführt werden, ohne die
-Julia-Umgebung zu verlassen.  Dokumentationsstrings von Funktionen oder Types im
-Quellcode können über die Hilfe in der Julia-Kommandozeile angezeigt werden.
+Julia-Umgebung zu verlassen.  Dokumentationsstrings von Funktionen oder Types
+im Quellcode können über die Hilfe in der Julia-Kommandozeile angezeigt werden.
 Hierzu wird einfach "?" vorangestellt und danach der gesuchte Begriff
 eingegeben. In dem Beispiel wird "?test" den String über der Funktionsdefinition
 zurückgeben.
@@ -198,14 +199,14 @@ end
 
 
 # Lineare Optimierung mit JuMP
-Die Hauptmotivation dieser Arbeit war die Evaluierung der Open-Souce Bibliothek
+Die Hauptmotivation dieser Arbeit ist die Evaluierung der Open-Souce Bibliothek
 JuMP.jl[@jump] in Hinsicht auf die Verwendung zur Lösung von Problemen aus dem Bereich
 der liniaren Optimierung. Insbesondere der Vergleich mit der auf Python
 baiserenden Grundlage Pyomo[@pyomo] des Programmes URBS im Bereich der Performance bei
-großen Problemstellungen wird verglichen werden. Außerdem beherrscht JuMP auch
+großen Problemstellungen soll angestellt werden. Außerdem beherrscht JuMP auch
 weitere Problemklassen, welche hier jedoch nicht von Bedeutung sind. Zudem
 befindet sich JuMP ebenso wie Julia noch in der aktiven Entwicklung, weshalb die
-Spezifikation noch öfteren Veränderungen unterworfen ist und dementsprechend die
+Spezifikation noch häufiger Veränderungen unterworfen ist und dementsprechend die
 entsprechende Onlinedokumentation sehr hilfreich ist.
 
 ## Einfaches Beispiel
@@ -262,17 +263,17 @@ optimierende Gleichung. Diese wird über das Makro `@objective` festgelegt, wobe
 der zweite Parameter die Art der Optimierung (Min oder Max) angibt, während der
 dritte Parameter die zu optimierende Gleichung enthält.
 
-Zusätzlich gibt es Bedingungen welche die Lösung erfüllen muss, um für das
+Zusätzlich gibt es Bedingungen, welche die Lösung erfüllen muss, um für das
 Problem gültig zu sein. Hierfür wird das Makro `@constraint` genutzt. In seiner
 einfachsten Form fügt das Makro dem Modell eine einzelne (Un-)Gleichung hinzu,
 welche einfach in normaler Syntax angegeben wird. Grundsätzlich lassen sich
 damit auch die Elemente eines Vektors einzeln innerhalb einer For-Schleife mit
 Bedingungen versehen. Es gibt jedoch bereits eine kompaktere Variante um für
-eine bestimmte Anzahl an Elementen die selbe Bedingung hinzuzufügen. Hierzu wird
-vor der eigentlichen Bedingung ein "Bedingungsname" vergeben sowie eine Anzahl
-an Variablen definiert, welche im Folgenden durchlaufen werden sollen. Die
-Variablen werden als Intervall, also `1:x`, und können somit als Indices für die
-Variablen-Vektoren des Modells genutzt werden.
+eine bestimmte Anzahl an Elementen die selbe Bedingung hinzuzufügen. Hierzu
+wird vor der eigentlichen Bedingung ein "Bedingungsname" vergeben sowie eine
+Anzahl an Variablen definiert, welche im Folgenden durchlaufen werden sollen.
+Die Variablen werden als Intervall angegeben, also als `1:x`, und können somit
+als Indices für die Variablen-Vektoren des Modells genutzt werden.
 
 ```julia
 @constraint(m, x + y <= 3)
@@ -292,7 +293,7 @@ Vektor mit den Indizes `x` bestimmt werden.
 **Solver**
 JuMP unterstützt mehrere kommerzielle und Open-Source Solver. Ohne abweichende
 Konfiguration verwendet es den GLPK Solver. Diese Einstellung kann jedoch
-verändert werden um alternative Solver zu verwenden. Diese Entscheidung wird bei
+verändert werden, um alternative Solver zu verwenden. Diese Entscheidung wird bei
 der Erstellung des Modells getroffen, indem dem Konstruktor als Parameter ein
 spezifischer Solver mitgegeben wird. Dies bedingt natürlich auch, dass die
 erforderlichen Pakete und Software für den jeweiligen Solver vorliegen.
@@ -330,7 +331,7 @@ Das Modul besteht hauptsächlich aus drei Bestandteilen: Einerseits müssen die
 Typen aus dem mathematischen Modell in Julia übernommen werden, andererseits
 muss aus einem gegebenen Set dieser Typen ein Modell erstellt werden. Zuletzt
 wurde eine Methode implementiert, welche die benötigten Daten aus einem
-Exceldokument ausließt und in die Julia-Typen transferiert.
+Exceldokument ausliest und in die Julia-Typen transferiert.
 
 **Typen:**
 Um die Parameter eines Elements aus den zuvor beschriebenen Mengen zu
@@ -347,8 +348,8 @@ Arrays gespeichert wurden, fügt die Methode `build_model` die Parameter und
 Variablen zu einem JuMP Modell zusammen. Hierbei ist stets zu beachten, die
 richtigen Parameter mit den korrespondierenden Variablen zusammenzubringen. Im
 einfachsten Fall bedeutet dies die Verwendung des selben Index bei dem Zugriff
-auf Variable und Parameter, im komplizierten Fall wie z.B. den zwei Richtungen
-einer Überlandleitung muss der Zusammenhang zwischen zwei Sätzen von Parametern
+auf Variable und Parameter, im komplizierten Fall, wie z.B. den zwei Richtungen
+einer Überlandleitung, muss der Zusammenhang zwischen zwei Sätzen von Parametern
 auf irgendeine Weise definiert und bei nachfolgenden Zugriffen eingehalten
 werden. Davon abgesehen wird das Urbs-Modell direkt auf die JuMP Syntax
 abgebildet.
@@ -376,10 +377,10 @@ Im Vergleich zu Urbs implementiert Urbs.jl lediglich die Modellerstellung und
 Lösung, nicht jedoch eine weitere Verarbeitung oder Visualisierung der
 Ergebnisse. Um eine geordnete Analyse aller Werte zu ermöglichen wurde ein
 weiterer Typ eingeführt, welcher die Eingangswerte und Ergebnisse zusammen in
-geordneter Art speichern zu können. Dieser Typ kann zudem serialisiert werden um
+geordneter Art speichert. Dieser Typ kann zudem serialisiert werden, um
 zu einem späteren Zeitpunkt auf die Ergebnisse zugreifen zu können, ohne das
 Modell erneut lösen zu müssen. Dies ist beispielhaft mit dem Julia-Paket `JLD`
-implementiert, welches Julia Datentypen in einer modifizierten HDF5-Syntax
+implementiert, welches Julia-Datentypen in einer modifizierten HDF5-Syntax
 speichern und laden kann.
 
 # Vergleich mit URBS
@@ -390,14 +391,15 @@ berücksichtigt, selbst wenn diese auf ein Nullelement gesetzt werden und somit
 bei der Lösung des Modells nicht mit eingehen. Dieser Aspekt muss bei der
 Betrachtung der Performance beachtet werden.
 
-Das Wichtigste Element zu Erhöhung der Lösungszeit ist die Involvierung des
+Das wichtigste Element zu Erhöhung der Lösungszeit ist die Involvierung des
 Energiespeichers, durch die zusätzliche Verknüpfung der einzelnen Zeitschritte.
 Da dieses Element in beiden betrachteten Programmen vorhanden ist, lässt sich
 zudem das Verhältnis zwischen Modellerstellung und Lösungszeit bewerten.
 
-Somit wird hauptsächlich die Zeit zur Erstellung des Modells bewertet, welche
-stark von der verwendeten Bibliothek abhängig ist. Das Einlesen der Daten und
-die Verarbeitung der Ergebnisse ist nicht Teil dieser Arbeit.
+Somit wird hauptsächlich die zur Erstellung des Modells benötigte Zeit
+bewertet, welche stark von der verwendeten Bibliothek abhängig ist. Das
+Einlesen der Daten und die Verarbeitung der Ergebnisse ist nicht Teil dieser
+Arbeit.
 
 - DIAGRAMME
 	* benutzte Test-Modelle einführen
