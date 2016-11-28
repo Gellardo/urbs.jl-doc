@@ -16,7 +16,6 @@ outertheme: infolines
 	* implementiert in der jungen Programmiersprache Julia
 
 ## Julia
-- high-Level Sprache
 - Ähnlichkeiten mit Matlab und Python, aber auch C-Elemente
 - nutzt einen Just-in-Time Compiler
 - noch in der Entwicklung $\rightarrow$ Syntax noch nicht stabil
@@ -31,7 +30,7 @@ outertheme: infolines
 - Jedes Element des Modells besitzt verschiedene Eigenschaften
 	* grundlegende Eigenschaften: z.B. Kapazität, Kosten
 	* spezielle Eigenschaften zur Modellierung der jeweiligen Eigenschaften: z.B. Effizienz, Anfangszustand bei Energiespeichern
-- Basierend auf diesen Parametern generiert das Modell Gleichungen um den zeitlichen Ablauf zu beschreiben und zu begrenzen
+- Basierend auf diesen Parametern generiert das Modell Gleichungen, um den zeitlichen Ablauf zu beschreiben und zu begrenzen
 $$\forall t \in T \forall p \in P . cap_{p,t} \leq maxcap_{p}$$
 - Lineare Solver finden eine (kosten-)optimale Belegung der Variablen des Modells
 
@@ -96,14 +95,14 @@ end
 ## Speicherverbrauch
 ![Speicherverbrauch der Modellerzeugung in Abhängigkeit der Zeitschritte](images/memory.png)
 
-## Future Work
-- Erweiterung des Modells
-- Auswertung und Visualisierung der Ergebnisse
-
 ## Ergebnis
 - JuMP nah an der mathematischen Formel
 - Modellierung von Sets nötig
 - Modellerzeugung 500-1000 mal schneller als Pyomo
 
+## Weiterführende Aufgaben
+- Erweiterung des Modells
+- Auswertung und Visualisierung der Ergebnisse
+
 ##
-**Vielen Dank für ihre Aufmerksamkeit**
+**Vielen Dank für Ihre Aufmerksamkeit!**
