@@ -142,14 +142,14 @@ Matrix mit den Zeilenvektoren `1 2` und `3 4`.
 **Funktionsparameter und Namenskonventionen:** Julia kennt grundsätzlich
 mehrere Arten von Funktionsparametern: Normale Funktionsparameter, welche
 gegebenenfalls mit Standardwerten belegt werden können, Keyword-Parameter,
-welche beim Aufruf der Funktion mit Namen angegeben werden, sowie einen
-Defaultwert und einen Aggregationsparameter für eine variable Anzahl an
-Parametern besitzen müssen.  Zu beachten ist hierbei, dass bei einer
-Funktionsdefinition zuerst die normalen Parameter angegeben werden müssen und
-dann, durch ein `;` getrennt, die Keyword-Parameter. In dem Beispiel haben wir
-zwei normale Parameter `a,b`, wobei `b`, soweit nicht anders angegeben mit `1`
-belegt wird.  Dem Keyword-Parameter `c` wird, soweit nicht anders aufgerufen,
-der Wert 2 zugewiesen und `args` enthält alle überzähligen Parameter als Tupel.
+welche beim Aufruf der Funktion mit Namen angegeben und einen Defaultwert
+besitzen müssen, als auch einen Aggregationsparameter für eine variable Anzahl
+an Parametern.  Zu beachten ist hierbei, dass bei einer Funktionsdefinition
+zuerst die normalen Parameter angegeben werden müssen und dann, durch ein `;`
+getrennt, die Keyword-Parameter. In dem Beispiel haben wir zwei normale
+Parameter `a,b`, wobei `b`, soweit nicht anders angegeben mit `1` belegt wird.
+Dem Keyword-Parameter `c` wird, soweit nicht anders aufgerufen, der Wert 2
+zugewiesen und `args` enthält alle überzähligen Parameter als Tupel.
 ```julia
 function foo(a, b=1; c=2, args...)
     a, b, args, c
